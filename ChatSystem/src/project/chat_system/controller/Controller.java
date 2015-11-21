@@ -91,7 +91,7 @@ public class Controller {
 	// //////////////////////////////////////////
 	// Méthode(s) spécifique(s)
 	public void performConnect(String nickname) throws IOException {
-		//this.localUser = new User(nickname, InetAddress.getLocalHost().getHostAddress());
+		this.localUser = new User(nickname, InetAddress.getLocalHost().getHostAddress());
 		this.udpNI.sendHello(this.localUser.getUsername());
 	}
 	
@@ -110,10 +110,14 @@ public class Controller {
 		}
 	}
 	
+	public void performMessage(String info) throws IOException {
+		this.udpNI.sendMessage(this.localUser.getUsername(), info);
+	}
+	
 	private void processHello(String username) throws IOException {
 		processHelloAck(username);
 		sendHelloAck(this.localUser.getUsername());
-		System.out.println("\n---------------\nprocessHello -> " + this.localUser.getUsername() + UserList.printUser(username));
+		//System.out.println("\n---------------\nprocessHello -> " + this.localUser.getUsername() + UserList.printUser(username));
 	}
 
 	private void sendHelloAck(String username) throws IOException {

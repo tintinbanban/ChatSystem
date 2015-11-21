@@ -27,4 +27,10 @@ public class TCP extends ChatNI {
 		
 	}
 
+	@Override
+	public void sendMessage(String username, String info) throws IOException {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

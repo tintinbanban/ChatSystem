@@ -22,8 +22,8 @@ public abstract class ChatNI {
 	protected DatagramPacket packet;
 	final static int taille = 4096;
 	static byte buffer[] = new byte[taille];
+	protected DatagramSocket datagramSocket;
 	
-			
 	////////////////////////////////////////////
 	// Getteur(s) & Setteur(s)
 	public Content getContent() {
@@ -50,12 +50,22 @@ public abstract class ChatNI {
 		this.packet = packet;
 	}
 
+	public DatagramSocket getDatagramSocket() {
+		return datagramSocket;
+	}
+
+	public void setDatagramSocket(DatagramSocket datagramSocket) {
+		this.datagramSocket = datagramSocket;
+	}
+
 	////////////////////////////////////////////
 	// Méthode(s) spécifique(s)
 	//-> implémentation du pattern Template
 	public abstract void sendHello(String username) throws IOException;
 	
 	public abstract void sendHelloAck(String username) throws IOException;
+	
+	public abstract void sendMessage(String username, String info) throws IOException;
 	
 	public void sendInstanceOfController(Controller controller) {
 		setController(controller);

@@ -26,7 +26,6 @@ public class UDP extends ChatNI implements Runnable {
 	// Attribut(s)
 	public final int udpPort = 9738;
 	private InetAddress address;
-	private DatagramSocket datagramSocket;
 
 	// //////////////////////////////////////////
 	// Constructeur(s)
@@ -34,7 +33,8 @@ public class UDP extends ChatNI implements Runnable {
 		super();
 		super.setContent(content);
 		super.packet = new DatagramPacket(super.buffer, super.buffer.length);
-		this.datagramSocket = new DatagramSocket(this.udpPort);
+		super.datagramSocket = new DatagramSocket(this.udpPort);
+		super.datagramSocket.setBroadcast(true);
 	}
 
 	// //////////////////////////////////////////
@@ -53,7 +53,7 @@ public class UDP extends ChatNI implements Runnable {
 
 	// //////////////////////////////////////////
 	// Méthode(s) spécifique(s)
-	public void send(Message message) throws IOException {
+	private void send(Message message) throws IOException {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		ObjectOutputStream oos = new ObjectOutputStream(baos);
 		oos.writeObject(message);
@@ -64,7 +64,6 @@ public class UDP extends ChatNI implements Runnable {
 		try {
 //			this.datagramSocket = new DatagramSocket(getUdpPort(),
 //					getAddress());
-			this.datagramSocket.setBroadcast(true);
 			broadcastList = super.getBroadList();
 			 System.out.println("getBroadList() : " +
 			 broadcastList.toString());
@@ -113,7 +112,6 @@ public class UDP extends ChatNI implements Runnable {
 	public void sendHello(String username) throws IOException {
 		Message message = Message.createHello(username);
 		this.send(message);
-
 	}
 
 	@Override
@@ -121,7 +119,13 @@ public class UDP extends ChatNI implements Runnable {
 		Message message = Message.createHelloAck(username);
 		this.send(message);
 	}
-
+	
+	@Override
+	public void sendMessage(String username, String info) throws IOException {
+		Message message = Message.createMessage(info);
+		this.send(message);
+	}
+	
 	// -> interface Runnable
 	@Override
 	public void run() {
@@ -134,5 +138,4 @@ public class UDP extends ChatNI implements Runnable {
 			}
 		}
 	}
-
 }
