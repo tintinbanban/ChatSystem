@@ -52,6 +52,7 @@ public class GUI extends JFrame implements ActionListener, KeyListener,
 	private Thread udpNIThread = null;
 	private Thread tcpNIThread = null;
 	private int RET_CONNECT = 1;
+	private int jeu;
 
 	// //////////////////////////////////////////
 	// Constructeur(s)
