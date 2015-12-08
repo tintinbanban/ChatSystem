@@ -67,7 +67,10 @@ public class ChatSystem {
 	public static void main(String[] args) {
 		try {
 			ChatSystem chatU1 = new ChatSystem();
+			//ChatSystem chatU2 = new ChatSystem();
+			
 			new Thread(chatU1.getGui()).start();
+			//new Thread(chatU2.getGui()).start();
 		} catch (SocketException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

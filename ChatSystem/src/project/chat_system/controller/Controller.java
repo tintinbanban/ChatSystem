@@ -16,7 +16,7 @@ import project.chat_system.view.GUI;
 
 // Classe gérant les interactions entre l'utilisateur du chatSystem et la RemoteApp
 //-> utilisation du pattern MVC
-public class Controller {
+public class Controller implements Observable {
 	// //////////////////////////////////////////
 	// Attribut(s)
 	private UserList userList;
@@ -25,6 +25,7 @@ public class Controller {
 	private ChatNI tcpNI;
 	private GUI gui;
 	private Etat etat;
+	private ArrayList<Object> tabObservateurs; 
 
 	// //////////////////////////////////////////
 	// Constructeur(s)
@@ -36,6 +37,7 @@ public class Controller {
 		this.etat = null;
 		this.udpNI.sendInstanceOfController(this);
 		this.tcpNI.sendInstanceOfController(this);
+		tabObservateurs = new ArrayList<>();
 	}
 
 	// //////////////////////////////////////////
@@ -126,7 +128,25 @@ public class Controller {
 
 	private void processHelloAck(String username) throws UnknownHostException {
 		this.addUser(username);
+		notifierObservateurs();
 		System.out.println("processHelloAck -> " + this.localUser.getUsername() + "\n--------------- " + UserList.printUser(username));
+	}
+
+	@Override
+	public void ajouterObservateur(Observateur o) {
+		this.tabObservateurs.add(o);
+	}
+
+	@Override
+	public void supprimerObservateur(Observateur o) {
+		this.tabObservateurs.remove(o);
+	}
+
+	@Override
+	public void notifierObservateurs() {
+		for (Object o : this.tabObservateurs) {
+			((Observateur) o).actualiser(this);
+		}
 	}
 	
 	// //////////////////////////////////////////

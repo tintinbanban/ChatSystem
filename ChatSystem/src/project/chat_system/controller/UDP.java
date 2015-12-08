@@ -68,8 +68,8 @@ public class UDP extends ChatNI implements Runnable {
 			 System.out.println("getBroadList() : " +
 			 broadcastList.toString());
 			for (InetAddress broadcast : broadcastList) {
-					//InetAddress iA = InetAddress.getByName("192.168.1.255");
-					// System.out.println("Local port : " +
+					InetAddress iA = InetAddress.getByName("192.168.75.255");
+//					 System.out.println("Local port : " +
 					// this.datagramSocket.getLocalPort());
 					// System.out.println("Local Adresse : " +
 					// this.datagramSocket.getLocalAddress().getHostAddress());
@@ -79,7 +79,7 @@ public class UDP extends ChatNI implements Runnable {
 					// this.datagramSocket.getInetAddress().getHostAddress() +
 					// "\n------------");
 					this.datagramSocket.send(new DatagramPacket(buff,
-							buff.length, broadcast, this.udpPort));
+							buff.length, iA, this.udpPort));
 			}
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
